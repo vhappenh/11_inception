@@ -17,3 +17,5 @@ clean:
 	#docker rmi $(docker images -q)
 
 re: clean all
+
+PHONEY: all up down clean re
