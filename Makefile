@@ -11,10 +11,13 @@ clean:
 	cd srcs && docker-compose down
 	cd ~/data && sudo chmod 777 -R mariadb && sudo rm -rf mariadb/*
 	cd ~/data && sudo chmod 777 -R wordpress && sudo rm -rf wordpress/*
+	docker volume rm srcs_wordpress
+	docker volume rm srcs_mariadb
 	#docker container prune
 	#docker volume prune
 	#docker image prune
-	#docker rmi $(docker images -q)
+	docker rmi `docker images -q`
+	@echo "🧹🧹🧹 cleaning done 🧹🧹🧹"
 
 re: clean all
 
