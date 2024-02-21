@@ -22,8 +22,8 @@ else
 						--dbuser=$MYSQL_USER \
 						--dbpass=$MYSQL_PASSWORD \
 						--dbhost=$MYSQL_HOSTNAME
+	#wp core download --allow-root
 fi
 
 mkdir -p /var/run/php
-echo "hallo i bims hier\n"
 exec /usr/sbin/php-fpm7.4 -F

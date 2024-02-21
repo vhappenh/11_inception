@@ -12,11 +12,11 @@ while ! mysqladmin ping -hlocalhost --silent; do
 done
 
 # Execute administrative SQL commands as root
-echo "Creating database..."
-mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;"
+# echo "Creating database..."
+# mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE DATABASE IF NOT EXISTS \`${MYSQL_DATABASE}\`;"
 
 echo "Creating user..."
-mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE USER IF NOT EXISTS \`${MYSQL_USER}\`@'localhost' IDENTIFIED BY '${MYSQL_PASSWORD}';"
+mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "CREATE USER IF NOT EXISTS \`${MYSQL_USER}\` IDENTIFIED BY '${MYSQL_PASSWORD}';"
 
 echo "Granting privileges..."
 mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON \`${MYSQL_DATABASE}\`.* TO \`${MYSQL_USER}\`@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';"
@@ -24,12 +24,19 @@ mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "GRANT ALL PRIVILEGES ON \`${MYSQL_D
 echo "Flushing privileges..."
 mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "FLUSH PRIVILEGES;"
 
-# Shutdown MariaDB service
-echo "Shutting down MariaDB service..."
-mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" "SHUTDOWN"
+# echo "Create database..."
+# mysql -u root -p"${MYSQL_ROOT_PASSWORD}" -e "create database wp;"
+
+# # Shutdown MariaDB service
+if service mariadb status > /dev/null; then
+    echo "Shutting down MariaDB service..."
+    mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown
+fi
+
 echo "Starting mysqld in safe mode..."
 exec mysqld_safe
 
+exec mysqld --user=mysql --bind-address=0.0.0.0
 
 # #!/bin/bash
 
