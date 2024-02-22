@@ -11,9 +11,10 @@ RUN apt install vim -y
 RUN apt install curl -y
 RUN apt install systemd -y
 RUN apt install mariadb-server -y
+RUN apt install mariadb-client -y
 
-COPY conf/50-server.cnf	/etc/mysql/mariadb.conf.d/50-server.cnf
-RUN chmod +x /etc/mysql/mariadb.conf.d/50-server.cnf
+COPY conf/50-server.cnf	/etc/mysql//my.cnf
+RUN chmod +x /etc/mysql/my.cnf
 COPY tools/mariadb.sh /usr/bin/mariadb.sh
 RUN chmod +x /usr/bin/mariadb.sh
 
