@@ -1,9 +1,6 @@
 all: 
 	cd srcs && docker-compose up --build -d
 
-up:
-	cd srcs && docker-compose up -d
-
 down:
 	cd srcs && docker-compose down
 
@@ -20,5 +17,9 @@ clean:
 	@echo "🧹🧹🧹 cleaning done 🧹🧹🧹"
 
 re: clean all
+
+dead:
+	docker system prune -a
+	#docker stop $(docker ps -a -q)
 
 PHONEY: all up down clean re

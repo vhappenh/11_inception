@@ -1,64 +1,59 @@
 version: '3.9'
 
 services:
-
-  mariadb:
-    container_name: mariadb
-    networks:
-      - inception
-    build:
-      context: requirements/mariadb
-      dockerfile: Dockerfile
-    env_file: 
-      - .env
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: wp
+      MYSQL_USER: wp
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
     volumes:
       - mariadb:/var/lib/mysql
-    restart: always
-    expose:
-      - "3306"
 
   nginx:
-    container_name: nginx
-    volumes:
-      - wordpress:/var/www/wordpress
-    networks:
-      - inception
-    depends_on:
-      - wordpress
-      - mariadb
     build:
       context: requirements/nginx
       dockerfile: Dockerfile
+    ports:
+    #  - 80:80
+      - 443:443
+    volumes:
+      - ./requirements/wordpress/wordpress:/var/www/html:delegated
+    depends_on:
+      - php
+      - mysql
     env_file: 
       - .env
-    ports:
-      - "443:443"
     restart: always
 
-  wordpress:
-    container_name: wordpress
-    env_file: 
-      - .env
+  php:
+    image: php:7.4-fpm-alpine
     volumes:
-      - wordpress:/var/www/wordpress
-    networks:
-      - inception
-    build:
-      context: requirements/wordpress
-      dockerfile: Dockerfile
-    depends_on:
-      - mariadb
-    restart: always
-    expose:
-      - "9000"
+      - ./requirements/wordpress/wordpress:/var/www/html:delegated
+
+  # php:
+  #   build:
+  #     context: requirements/wordpress
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./requirements/wordpress/wordpress:/var/www/html:delegated
+  # wp:
+  #   build:
+  #     context: requirements/wordpress
+  #     dockerfile: Dockerfile
+  #   volumes:
+  #     - ./requirements/wordpress/wordpress:/var/www/html:delegated
+  #   entrypoint: ['wp', '--allow-root']
 
 volumes:
-  wordpress:
-    driver: local
-    driver_opts:
-      type: 'none'
-      o: 'bind'
-      device: /home/vhappenh/data/wordpress
+  # wordpress:
+  #   driver: local
+  #   driver_opts:
+  #     type: 'none'
+  #     o: 'bind'
+  #     device: /home/vhappenh/data/wordpress
+  
   mariadb:
     driver: local
     driver_opts:
@@ -66,6 +61,6 @@ volumes:
       o: 'bind'
       device: /home/vhappenh/data/mariadb
 
-networks:
-  inception:
-    driver: bridge
+# networks:
+#   inception:
+#     driver: bridge
