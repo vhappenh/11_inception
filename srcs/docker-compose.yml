@@ -12,6 +12,8 @@ services:
       - .env
     volumes:
       - mariadb:/var/lib/mysql
+    expose:
+      - 3306
     restart: always
 
   nginx:
@@ -39,6 +41,8 @@ services:
     build:
       context: requirements/wordpress
       dockerfile: Dockerfile
+    env_file:
+      - .env
     volumes:
       - wordpress:/var/www/html:delegated
     expose:
