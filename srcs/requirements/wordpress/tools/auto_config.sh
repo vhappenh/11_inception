@@ -22,6 +22,7 @@ else
 						--dbuser=$MYSQL_USER \
 						--dbpass=$MYSQL_PASSWORD \
 						--dbhost=$MYSQL_HOSTNAME
+
 	wp core install --allow-root \
 					--url=$DOMAIN_NAME \
 					--title="valeriansinceptionpalooza" \

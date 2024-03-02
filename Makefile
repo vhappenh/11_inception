@@ -1,6 +1,9 @@
 all: 
 	cd srcs && docker-compose up --build -d
 
+up:
+	cd srcs && docker-compose up -d
+
 down:
 	cd srcs && docker-compose down
 

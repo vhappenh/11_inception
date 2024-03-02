@@ -17,8 +17,8 @@ mysql -e "FLUSH PRIVILEGES;"
 
 if service mariadb status > /dev/null; then
     echo "Shutting down MariaDB service..."
-    #mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown
-    mysql -e "SHUTDOWN;"
+    mysqladmin -u root -p"${MYSQL_ROOT_PASSWORD}" shutdown
+    #mysql -e "SHUTDOWN;"
 fi
 
 exec mysqld_safe
