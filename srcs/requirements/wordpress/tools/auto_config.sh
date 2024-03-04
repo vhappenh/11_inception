@@ -25,10 +25,16 @@ else
 
 	wp core install --allow-root \
 					--url=$DOMAIN_NAME \
-					--title="valeriansinceptionpalooza" \
+					--title="Inception" \
 					--admin_user=$MYSQL_USER \
 					--admin_password=$MYSQL_ROOT_PASSWORD \
 					--admin_email="blub@blub.com"
+
+	wp user create --allow-root \
+					$MYSQL_USER_TWO \
+					$MYSQL_USER_TWO_MAIL \
+					--role=subscriber \
+					--user_pass=$MYSQL_PASSWORD_TWO
 fi
 
 mkdir -p /var/run/php
