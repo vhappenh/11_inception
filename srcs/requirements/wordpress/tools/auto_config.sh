@@ -7,14 +7,10 @@ else
 	wget -q -O /tmp/latest.tar.gz https://wordpress.org/latest.tar.gz && \
     tar -xzf /tmp/latest.tar.gz -C /var/www/html --strip-components=1 && \
     rm /tmp/latest.tar.gz
-	# chown -R root:root /var/www/wordpress
 
 	wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 	chmod +x wp-cli.phar
 	mv wp-cli.phar /usr/local/bin/wp
-	
-	echo waiting for 10 seconds . . .
-	sleep 10
 	
 	cd /var/www/html
 	wp config create	--allow-root \

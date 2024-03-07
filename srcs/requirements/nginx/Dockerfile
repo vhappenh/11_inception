@@ -1,8 +1,6 @@
 FROM debian:bullseye
 
-# ENV DOMAIN_NAME=$DOMAIN_NAME
-RUN apt update 
-RUN apt upgrade
+RUN apt update && apt upgrade
 RUN apt install -y nginx openssl
 
 RUN mkdir -p /etc/nginx/ssl
